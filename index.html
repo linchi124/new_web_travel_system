@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅游推荐系统 - 发现美好目的地</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=PingFang+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-map-marked-alt"></i>
+                <span>江湖路迢迢</span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="#home">首页</a>
+                <a href="#destinations">目的地</a>
+                <a href="#hot">热门推荐</a>
+                <a href="#about">关于我们</a>
+            </div>
+            <div class="nav-actions">
+                <button class="search-btn" id="searchBtn">
+                    <i class="fas fa-search"></i>
+                    <span>搜索</span>
+                </button>
+                <button class="user-btn" id="userBtn">
+                    <i class="fas fa-user"></i>
+                </button>
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 搜索覆盖层 -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="搜索目的地..." autocomplete="off">
+            <button id="searchClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+        </div>
+        <!-- Hero区域 -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>发现你的下一个冒险</h1>
+            <p>探索世界上最美丽的目的地，开启难忘之旅</p>
+            <button class="cta-btn" onclick="scrollToDestinations()">立即探索</button>
+        </div>
+        <div class="hero-overlay"></div>
+    </section>
+
+    <!-- 分类筛选 -->
+    <section class="category-section">
+        <div class="container">
+            <h2>目的地分类</h2>
+            <div class="category-grid" id="categoryGrid">
+            </div>
+        </div>
+    </section>
+
+    <!-- 热门推荐轮播 -->
+    <section id="hot" class="hot-section">
+        <div class="container">
+            <h2>热门推荐</h2>
+            <div class="carousel-container">
+                <button class="carousel-prev" id="carouselPrev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="carousel-track" id="carouselTrack">
+                </div>
+                <button class="carousel-next" id="carouselNext">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="carousel-indicators" id="carouselIndicators">
+            </div>
+        </div>
+    </section>
+
+    <!-- 目的地卡片 -->
+    <section id="destinations" class="destinations-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>推荐目的地</h2>
+                <div class="view-toggle">
+                    <button class="grid-view active" id="gridView">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="list-view" id="listView">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="destinations-grid" id="destinationsGrid">
+            </div>
+            <button class="load-more" id="loadMore">加载更多</button>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer id="about">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span>旅途探索</span>
+                    </div>
+                    <p>行走江湖，探索天下美景</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#destinations">目的地</a></li>
+                        <li><a href="#hot">热门推荐</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <p><i class="fas fa-phone"></i> 15812416238</p>
+                    <p><i class="fas fa-envelope"></i> linchi124@qq.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 江湖路迢迢. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 详情弹窗 -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-content" id="modalContent">
+                <!-- 详情内容将由JS生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 登录弹窗 -->
+    <div class="modal-overlay" id="loginOverlay">
+        <div class="modal login-modal">
+            <button class="modal-close" id="loginClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="login-content">
+                <div class="login-header">
+                    <h2>用户登录</h2>
+                    <p>欢迎来到江湖路迢迢</p>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginPhone">手机号</label>
+                        <input type="tel" id="loginPhone" placeholder="请输入11位手机号" required>
+                        <span class="error-message" id="loginPhoneError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">密码</label>
+                        <input type="password" id="loginPassword" placeholder="请输入密码" required>
+                        <span class="error-message" id="loginPasswordError"></span>
+                    </div>
+                    <button type="submit" class="btn-primary">登录</button>
+                </form>
+                <div class="login-footer">
+                    <span>还没有账号？</span>
+                    <button class="register-btn" id="registerBtn">立即注册</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 注册弹窗 -->
+    <div class="modal-overlay" id="registerOverlay">
+        <div class="modal login-modal">
+            <button class="modal-close" id="registerClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="login-content">
+                <div class="login-header">
+                    <h2>用户注册</h2>
+                    <p>创建您的旅行账户</p>
+                </div>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerNickname">昵称</label>
+                        <input type="text" id="registerNickname" placeholder="请输入昵称" required>
+                        <span class="error-message" id="registerNicknameError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPhone">手机号</label>
+                        <input type="tel" id="registerPhone" placeholder="请输入11位手机号" required>
+                        <span class="error-message" id="registerPhoneError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">密码</label>
+                        <input type="password" id="registerPassword" placeholder="请输入密码" required>
+                        <span class="error-message" id="registerPasswordError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">确认密码</label>
+                        <input type="password" id="registerConfirmPassword" placeholder="请确认密码" required>
+                        <span class="error-message" id="registerConfirmPasswordError"></span>
+                    </div>
+                    <button type="submit" class="btn-primary">注册</button>
+                </form>
+                <div class="login-footer">
+                    <span>已有账号？</span>
+                    <button class="register-btn" id="backToLogin">返回登录</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 个人中心弹窗 -->
+    <div class="modal-overlay" id="profileOverlay">
+        <div class="modal profile-modal">
+            <button class="modal-close" id="profileClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="profile-content" id="profileContent">
+                <!-- 个人中心内容将由JS生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 地图弹窗 -->
+    <div class="modal-overlay" id="mapOverlay">
+        <div class="modal map-modal">
+            <button class="modal-close" id="mapClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="map-content">
+                <h3 id="mapTitle">目的地地图</h3>
+                <div id="mapContainer"></div>
+                <div class="map-legend">
+                    <span class="legend-item">
+                        <i class="fas fa-map-marker-alt" style="color: #e74c3c;"></i>
+                        <span>选中目的地</span>
+                    </span>
+                    <span class="legend-item">
+                        <i class="fas fa-map-marker-alt" style="color: #3498db;"></i>
+                        <span>其他景点</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 百度地图API -->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=IqHm22xixAwmHQuCoPt0PaVM4lmClp6M"></script>
+    <script src="script.js"></script>
+</body>
+</html>
